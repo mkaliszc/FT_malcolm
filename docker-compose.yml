@@ -1,0 +1,30 @@
+services:
+  attacker:
+    container_name: attacker
+    build:
+      dockerfile: ./Docker/attacker.dockerfile
+    networks:
+      ft_malcolm:
+        ipv4_address: 172.20.0.2
+    mac_address: AA:BB:CC:DD:EE:02
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    restart: always
+  
+  target:
+    container_name: target
+    build:
+      ./Docker/target.dockerfile
+    networks:
+      ft_malcolm:
+        ipv4_address: 172.20.0.3
+    mac_address: AA:BB:CC:DD:EE:03
+    restart: always
+
+networks:
+  ft_malcolm:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/24

@@ -12,6 +12,9 @@ INFO = $(LCYAN)/INFO/$(RESET)
 CLEANING = $(LRED)[DELETING]$(RESET)
 SUCCESS = $(LGREEN)[SUCCESS]$(RESET)
 
+DOCKER_CMD = docker compose
+DOCKER_PATH = docker-compose.yml
+
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -Iinclude
 
@@ -39,7 +42,7 @@ $(LIB):
 		echo "$(GREEN)SUCCESS"; \
 	else \
 		echo "$(INFO)$(PURPLE) Clonning lib...$(RESET)"; \
-		git clone git@github.com:mkaliszc/OctoLIB.git; \
+		git clone https://github.com/mkaliszc/OctoLIB.git; \
 	fi
 	@echo "$(INFO)$(PURPLE) Making Lib$(RESET)"
 	@$(MAKE) -sC $(LIB_DIR)
@@ -48,6 +51,21 @@ $(NAME): $(LIB) $(OBJS)
 	@echo "$(INFO) $(GREEN)Creating $(NAME)$(RESET)"
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIB)
 	@echo "$(SUCCESS)"
+
+up: ${CERT_FILES} ${VOLUME_DIRS}
+	${DOCKER_CMD} -p ${NAME} -f ${DOCKER_PATH} up -d --build;
+
+down:
+	${DOCKER_CMD} -p ${NAME} -f ${DOCKER_PATH} down -v;
+
+stop:
+	${DOCKER_CMD} -p ${NAME} -f ${DOCKER_PATH} stop;
+
+run:
+	${DOCKER_CMD} -p ${NAME} -f ${DOCKER_PATH} start;
+
+restart:
+	${DOCKER_CMD} -p ${NAME} -f ${DOCKER_PATH} restart;
 
 clean:
 	@echo "$(CLEANING) $(GRAY)$(OBJ_DIR) in $(LIB_DIR) and local dir$(RESET)"
@@ -62,4 +80,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re bonus up down run start restart

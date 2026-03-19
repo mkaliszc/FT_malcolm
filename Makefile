@@ -52,7 +52,7 @@ $(NAME): $(LIB) $(OBJS)
 	$(CC) $(CFLAGS) -o $(NAME) $(OBJS) $(LIB)
 	@echo "$(SUCCESS)"
 
-up: ${CERT_FILES} ${VOLUME_DIRS}
+up:
 	${DOCKER_CMD} -p ${NAME} -f ${DOCKER_PATH} up -d --build;
 
 down:
@@ -80,4 +80,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus up down run start restart
+.PHONY: all clean fclean re bonus up down run stop restart

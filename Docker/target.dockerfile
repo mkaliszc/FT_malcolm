@@ -1,6 +1,15 @@
-FROM apline:3.23.3
+FROM alpine:3.23.3
+USER root
 
 RUN apk add --no-cache net-tools iputils
 
-CMD ["sleep", "infinity"]
+WORKDIR /app
+
+COPY src/target ./src/target
+COPY includes ./includes
+COPY Makefile .
+
+RUN make target
+
+CMD ["./target"]
 

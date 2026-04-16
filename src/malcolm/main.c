@@ -2,6 +2,7 @@
 
 /* TODO: 
 	- Check parameters to be sure (order, host, etc)
+	- connect to the ssocket ?
 	- Final goal is to wait for an arp request from the target and
 		give an arp reply to poison the arp cache of the target.
 */

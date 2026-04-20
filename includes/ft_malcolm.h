@@ -20,4 +20,6 @@
 # include <ifaddrs.h>
 # include <string.h>
 
+# include <linux/if_ether.h> // define
+# include <linux/if_packet.h> // struct
 #endif

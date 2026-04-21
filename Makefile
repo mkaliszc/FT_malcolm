@@ -27,7 +27,7 @@ SUCCESS  = $(LGREEN)[SUCCESS]$(RESET)
 DOCKER_CMD  = docker compose
 DOCKER_PATH = docker-compose.yml
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror -Iincludes
+CFLAGS      = -Wall -Wextra -Werror -Iinclude
 
 # ============================================================================ #
 #                               DIRECTORIES                                    #

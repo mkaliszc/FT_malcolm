@@ -35,6 +35,7 @@ CFLAGS      = -Wall -Wextra -Werror -Iinclude
 
 MALCOLM_SRC_DIR = src/malcolm
 TARGET_SRC_DIR  = src/target
+COMMON_SRC_DIR	= src/common
 OBJ_DIR         = obj
 LIB_DIR         = OctoLIB/
 
@@ -44,9 +45,11 @@ LIB_DIR         = OctoLIB/
 
 MALCOLM_SRCS := $(shell find $(MALCOLM_SRC_DIR) -name "*.c")
 TARGET_SRCS  := $(shell find $(TARGET_SRC_DIR)  -name "*.c")
+COMMON_SRCS	 := $(shell find $(COMMON_SRC_DIR) -name "*.c")
 
 MALCOLM_OBJS := $(patsubst src/%.c, $(OBJ_DIR)/%.o, $(MALCOLM_SRCS))
 TARGET_OBJS  := $(patsubst src/%.c, $(OBJ_DIR)/%.o, $(TARGET_SRCS))
+COMMON_OBJS  := $(patsubst src/%.c, $(OBJ_DIR)/%.o, $(COMMON_SRCS))
 
 LIB = $(LIB_DIR)libft.a
 
@@ -77,12 +80,12 @@ $(LIB):
 # === BINARIES ===
 $(NAME): $(LIB) $(MALCOLM_OBJS)
 	@echo "$(INFO) $(GREEN)Creating $(NAME)$(RESET)"
-	@$(CC) $(CFLAGS) -o $(NAME) $(MALCOLM_OBJS) $(LIB)
+	@$(CC) $(CFLAGS) -o $(NAME) $(MALCOLM_OBJS) $(COMMON_OBJS) $(LIB)
 	@echo "$(SUCCESS)"
 
 $(TARGET_NAME): $(LIB) $(TARGET_OBJS)
 	@echo "$(INFO) $(GREEN)Creating $(TARGET_NAME)$(RESET)"
-	@$(CC) $(CFLAGS) -o $(TARGET_NAME) $(TARGET_OBJS) $(LIB)
+	@$(CC) $(CFLAGS) -o $(TARGET_NAME) $(TARGET_OBJS) $(COMMON_OBJS) $(LIB)
 	@echo "$(SUCCESS)"
 
 # === DOCKER ===

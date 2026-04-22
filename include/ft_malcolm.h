@@ -48,10 +48,16 @@ typedef struct s_frame
 	t_arp arp;
 } __attribute__((packed)) t_frame;
 
-int	find_interface();
+// * ft_malcolm function
 
-// target's function
-int	set_sockadrr_ll(struct sockaddr_ll *addr);
-int	set_target_frame(struct s_frame *buf);
+
+// * Function in common
+int		find_interface();
+char	**parse_mac_address(char *mac_address);
+void	fill_mac_address(unsigned char	addr[8], char **mac_address);
+int		set_frame(struct s_frame *buf, char **mac_address_dst, char **mac_address_src);
+
+// * target's function
+int		set_sockadrr_ll(struct sockaddr_ll *addr);
 
 #endif

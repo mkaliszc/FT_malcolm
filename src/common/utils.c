@@ -23,23 +23,10 @@ int	find_interface() {
 	return(index);
 }
 
-int	set_sockadrr_ll(struct sockaddr_ll *addr) {
-	int	ifid = find_interface();
-	
-	if (ifid == 0) {
-		printf_fd(2, "[INFO] : No valid interface found.\n");
-		return(-1);
+void	fill_mac_address(unsigned char	addr[8], char **mac_address) {
+	int	i = 0;
+
+	while(i < 6) {
+		addr[i] = ft_strtol(mac_address[i++], 16);
 	}
-
-	ft_memset(addr, 0, sizeof(addr));
-	addr->sll_family = AF_PACKET;
-	addr->sll_ifindex = ifid;
-	addr->sll_halen = 6;	
-	ft_memset(addr->sll_addr, 0xFF, 6);
-
-	return(0);
-}
-
-int	set_target_frame(struct s_frame *buf) {
-	
 }

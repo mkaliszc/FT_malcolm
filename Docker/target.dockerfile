@@ -6,10 +6,11 @@ RUN apk add --no-cache net-tools iputils git
 WORKDIR /app
 
 COPY src/target ./src/target
-COPY includes ./includes
+COPY src/common ./src/common
+COPY include ./include
 COPY Makefile .
 
 RUN make target
 
-CMD ["./target"]
+CMD ["./target", "AA:BB:CC:DD:EE:03"]
 

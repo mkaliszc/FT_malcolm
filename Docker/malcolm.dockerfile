@@ -6,7 +6,8 @@ RUN apk add --no-cache gcc git
 WORKDIR /app
 
 COPY src/malcolm ./src/malcolm
-COPY includes ./includes
+COPY src/common ./src/common
+COPY include ./include
 COPY Makefile .
 
 RUN make ft_malcolm

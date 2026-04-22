@@ -48,6 +48,16 @@ typedef struct s_frame
 	t_arp arp;
 } __attribute__((packed)) t_frame;
 
+
+typedef struct s_malcolm
+{
+	char				**src_mac_addr;
+	char				**dst_mac_addr;
+	int					sockfd;
+	struct sockaddr_ll	*addr;
+	struct s_frame		*buf;
+} t_malcolm;
+
 // * ft_malcolm function
 
 
@@ -58,6 +68,6 @@ void	fill_mac_address(unsigned char	addr[8], char **mac_address);
 int		set_frame(struct s_frame *buf, char **mac_address_dst, char **mac_address_src);
 
 // * target's function
-int		set_sockadrr_ll(struct sockaddr_ll *addr);
+int		set_sockadrr_ll(struct sockaddr_ll *addr, char **mac_address);
 
 #endif

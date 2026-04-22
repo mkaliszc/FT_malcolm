@@ -30,3 +30,13 @@ void	fill_mac_address(unsigned char	addr[8], char **mac_address) {
 		addr[i] = ft_strtol(mac_address[i++], 16);
 	}
 }
+
+t_malcolm	*fill_t_malcolm(char **src_mac_addr, char **dst_mac_addr, int sockfd) {
+	t_malcolm	*return_value = malloc(sizeof(t_malcolm));
+
+	return_value->dst_mac_addr = dst_mac_addr;
+	return_value->dst_mac_addr = src_mac_addr;
+	return_value->sockfd = sockfd;
+
+	return (return_value);
+}

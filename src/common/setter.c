@@ -1,6 +1,6 @@
 # include "ft_malcolm.h"
 
-int	set_sockadrr_ll(struct sockaddr_ll *addr, char *mac_address) {
+int	set_sockadrr_ll(struct sockaddr_ll *addr, char **mac_address) {
 	int	ifid = find_interface();
 	
 	if (ifid == 0) {
@@ -22,7 +22,7 @@ int	set_frame(struct s_frame *buf, char **mac_address_dst, char **mac_address_sr
 	t_arp	arp;
 
 	fill_mac_address(eth.dst, mac_address_dst);
-	fill_mac_address(eth.dst, mac_address_src);
+	fill_mac_address(eth.src, mac_address_src);
 	eth.ethertype = 0x0806;
 
 	// TODO : fill arp

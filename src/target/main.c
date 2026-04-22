@@ -5,8 +5,11 @@
 		someone to be poisoned by malcolm
 */
 
+// TODO : rewrite everything to adapt to struct s_malcolm
+
 int main(int argc, char **argv) {
 	char	**mac_address;
+	char	**broadcast;
 
 	if (argc !=  2) {
 		printf_fd(2, "[ERROR] : Invalid number of parameters.\n");
@@ -26,7 +29,7 @@ int main(int argc, char **argv) {
 
 	if (sockfd < 0) {
 		printf_fd(2, "[ERROR] : Failed to create the socket\n");
-		return(close(sockfd), 1);
+		return(ft_free_char_tab(mac_address), close(sockfd), 1);
 	}
 
 	if (setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, &val, sizeof(val)) < 0) {
@@ -36,15 +39,16 @@ int main(int argc, char **argv) {
 
 	addr = malloc(sizeof(struct sockaddr_ll));
 	if (addr == NULL) {
-		return(printf_fd(2,"[ERROR] : malloc error.\n"));
+		return(ft_free_char_tab(mac_address), printf_fd(2,"[ERROR] : malloc error.\n"));
 	}
 
-	if (set_sockadrr_ll(addr) < 0) {
+	broadcast = parse_mac_adress("FF:FF:FF:FF:FF:FF");
+	if (set_sockadrr_ll(addr, broadcast) < 0) {
 		printf_fd(2, "[ERROR] : Couldn't set sockaddr_ll\n");
-		return(close(sockfd), free(addr), 1);
+		return(ft_free_char_tab(mac_address), close(sockfd), free(addr), 1);
 	}
 
-	if (set_frame(buf, parse_mac_adress("FF:FF:FF:FF:FF:FF"), mac_address) < 0) {
+	if (set_frame(buf, broadcast, mac_address) < 0) {
 
 	}
 

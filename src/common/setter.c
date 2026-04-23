@@ -18,8 +18,8 @@ int	set_sockadrr_ll(struct sockaddr_ll *addr, char **mac_address) {
 }
 
 int	set_frame(struct s_frame *buf, char **mac_address_dst, char **mac_address_src) {
-	t_eth	eth;
-	t_arp	arp;
+	t_eth	eth = {0};
+	t_arp	arp = {0};
 
 	fill_mac_address(eth.dst, mac_address_dst);
 	fill_mac_address(eth.src, mac_address_src);
@@ -29,4 +29,5 @@ int	set_frame(struct s_frame *buf, char **mac_address_dst, char **mac_address_sr
 	
 	buf->eth = eth;
 	buf->arp = arp;
+	return(0);
 }

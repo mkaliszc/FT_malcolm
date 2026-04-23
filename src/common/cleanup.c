@@ -18,4 +18,6 @@ void	clean_malcolm(t_malcolm	*data) {
 	if (data->sockfd != -1) {
 		close(data->sockfd);
 	}
+
+	free(data);
 }

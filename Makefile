@@ -78,14 +78,14 @@ $(LIB):
 	@$(MAKE) -sC $(LIB_DIR)
 
 # === BINARIES ===
-$(NAME): $(LIB) $(MALCOLM_OBJS)
+$(NAME): $(LIB) $(MALCOLM_OBJS) $(COMMON_OBJS)
 	@echo "$(INFO) $(GREEN)Creating $(NAME)$(RESET)"
-	@$(CC) $(CFLAGS) -o $(NAME) $(MALCOLM_OBJS) $(COMMON_OBJS) $(LIB)
+	@$(CC) $(CFLAGS) -o $(NAME) $(COMMON_OBJS) $(MALCOLM_OBJS) $(LIB)
 	@echo "$(SUCCESS)"
 
-$(TARGET_NAME): $(LIB) $(TARGET_OBJS)
+$(TARGET_NAME): $(LIB) $(TARGET_OBJS) $(COMMON_OBJS)
 	@echo "$(INFO) $(GREEN)Creating $(TARGET_NAME)$(RESET)"
-	@$(CC) $(CFLAGS) -o $(TARGET_NAME) $(TARGET_OBJS) $(COMMON_OBJS) $(LIB)
+	@$(CC) $(CFLAGS) -o $(TARGET_NAME) $(COMMON_OBJS) $(TARGET_OBJS) $(LIB)
 	@echo "$(SUCCESS)"
 
 # === DOCKER ===

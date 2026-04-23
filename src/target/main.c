@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 	}
 
 	int	val = 1;
-	int	sockfd = socket(AF_PACKET, SOCK_RAW, 0);
+	int	sockfd = socket(AF_PACKET, SOCK_RAW, 0); // ! not working
 	if (sockfd < 0) {
 		printf_fd(2, "[ERROR] : Failed to create the socket.\n");
 		return (1);
@@ -39,4 +39,6 @@ int main(int argc, char **argv) {
 	}
 
 	// sendto
+	clean_malcolm(data);
+	return(0);
 }

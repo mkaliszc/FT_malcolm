@@ -62,12 +62,14 @@ typedef struct s_malcolm
 
 
 // * Function in common
-int		find_interface();
-char	**parse_mac_address(char *mac_address);
-void	fill_mac_address(unsigned char	addr[8], char **mac_address);
-int		set_frame(struct s_frame *buf, char **mac_address_dst, char **mac_address_src);
+int			find_interface();
+char		**parse_mac_address(char *mac_address);
+void		fill_mac_address(unsigned char	addr[8], char **mac_address);
+int			set_frame(struct s_frame *buf, char **mac_address_dst, char **mac_address_src);
+t_malcolm	*init_t_malcolm(char *src_mac_addr, char *dst_mac_addr);
+void		clean_malcolm(t_malcolm	*data);
 
 // * target's function
-int		set_sockadrr_ll(struct sockaddr_ll *addr, char **mac_address);
+int			set_sockadrr_ll(struct sockaddr_ll *addr, char **mac_address);
 
 #endif

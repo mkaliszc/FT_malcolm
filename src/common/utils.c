@@ -31,12 +31,40 @@ void	fill_mac_address(unsigned char	addr[8], char **mac_address) {
 	}
 }
 
-t_malcolm	*fill_t_malcolm(char **src_mac_addr, char **dst_mac_addr, int sockfd) {
+t_malcolm	*init_t_malcolm(char *src_mac_addr, char *dst_mac_addr) {
 	t_malcolm	*return_value = malloc(sizeof(t_malcolm));
 
-	return_value->dst_mac_addr = dst_mac_addr;
-	return_value->dst_mac_addr = src_mac_addr;
-	return_value->sockfd = sockfd;
+	if (return_value == NULL) {
+		return(printf_fd(2,"[ERROR] : malloc error.\n"), NULL);
+	}
 
+	ft_memset(return_value, '\0', sizeof(t_malcolm));
+
+	return_value->src_mac_addr = parse_mac_addr(src_mac_addr);
+	if (return_value->src_mac_addr == NULL) {
+		printf_fd(2, "[ERROR] : Not a MAC adress.\n");
+		return(clean_malcolm(return_value), NULL);
+	}
+	return_value->dst_mac_addr = src_mac_addr;
+
+	return_value->dst_mac_addr = parse_mac_adress(dst_mac_addr);
+	if (return_value->dst_mac_addr == NULL) {
+		printf_fd(2, "[ERROR] : Not a MAC adress.\n");
+		return(clean_malcolm(return_value), NULL);
+	}
+	return_value->dst_mac_addr = dst_mac_addr;
+
+	return_value->addr = malloc(sizeof(struct sockaddr_ll));
+	if (return_value->addr == NULL) {
+		return(clean_malcolm(return_value), printf_fd(2,"[ERROR] : malloc error.\n"), NULL);
+	}
+
+	return_value->buf = malloc(sizeof(struct sockaddr_ll));
+	if (return_value->buf == NULL) {
+		return(clean_malcolm(return_value), printf_fd(2,"[ERROR] : malloc error.\n"), NULL);
+	}
+
+	return_value->sockfd = -1;
+	
 	return (return_value);
 }

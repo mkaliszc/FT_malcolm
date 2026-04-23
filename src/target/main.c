@@ -5,52 +5,38 @@
 		someone to be poisoned by malcolm
 */
 
-// TODO : rewrite everything to adapt to struct s_malcolm
-
 int main(int argc, char **argv) {
-	char	**mac_address;
-	char	**broadcast;
-
 	if (argc !=  2) {
 		printf_fd(2, "[ERROR] : Invalid number of parameters.\n");
 		return(1);
 	}
-	mac_address = parse_mac_addr(argv[1]);
-	if (mac_address == NULL) {
-		printf_fd(2, "[ERROR] : Not a MAC adress.\n");
-		return(1);
-	}
 
-	struct sockaddr_ll	*addr;
-	t_frame				*buf;
-	int					val = 1;
-	int					sockfd = socket(AF_PACKET, SOCK_RAW, 0);
-	
-
+	int	val = 1;
+	int	sockfd = socket(AF_PACKET, SOCK_RAW, 0);
 	if (sockfd < 0) {
-		printf_fd(2, "[ERROR] : Failed to create the socket\n");
-		return(ft_free_char_tab(mac_address), close(sockfd), 1);
+		printf_fd(2, "[ERROR] : Failed to create the socket.\n");
+		return (1);
 	}
-
 	if (setsockopt(sockfd, SOL_SOCKET, SO_BROADCAST, &val, sizeof(val)) < 0) {
-		printf_fd(2, "[ERROR] : Couldn't set socket option, %s\n", strerror(errno));
+		printf_fd(2, "[ERROR] : Couldn't set socket option, %s.\n", strerror(errno));
 		return(close(sockfd), 1);
 	}
 
-	addr = malloc(sizeof(struct sockaddr_ll));
-	if (addr == NULL) {
-		return(ft_free_char_tab(mac_address), printf_fd(2,"[ERROR] : malloc error.\n"));
+	t_malcolm	*data = init_t_malcolm(argv[1], "FF:FF:FF:FF:FF:FF");
+	if (data == NULL) {
+		return(close(sockfd), 1);
+	}
+	data->sockfd = sockfd;
+
+	if (set_sockadrr_ll(data->addr, data->dst_mac_addr) < 0) {
+		printf_fd(2, "[ERROR] : Couldn't set sockaddr_ll.\n");
+		return(clean_malcolm(data), 1);
 	}
 
-	broadcast = parse_mac_adress("FF:FF:FF:FF:FF:FF");
-	if (set_sockadrr_ll(addr, broadcast) < 0) {
-		printf_fd(2, "[ERROR] : Couldn't set sockaddr_ll\n");
-		return(ft_free_char_tab(mac_address), close(sockfd), free(addr), 1);
+	if (set_frame(data->buf, data->dst_mac_addr, data->src_mac_addr) < 0) {
+		printf_fd(2, "[ERROR] : Couldn't set frame.\n");
+		return(clean_malcolm(data), 1);
 	}
 
-	if (set_frame(buf, broadcast, mac_address) < 0) {
-
-	}
-
-	// sendto(sockfd);
+	// sendto
 }

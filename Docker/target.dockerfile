@@ -12,5 +12,5 @@ COPY Makefile .
 
 RUN make target
 
-CMD ["./target", "AA:BB:CC:DD:EE:03"]
+CMD ["sudo ./target", "AA:BB:CC:DD:EE:03"]
 

@@ -19,6 +19,3 @@ char	**parse_mac_address(char *mac_address) {
 	return_value = ft_split(mac_address, ':');
 	return(return_value);
 }
-
-// 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16
-// a a : a a : a a : a a  :  a  a  :  a  a

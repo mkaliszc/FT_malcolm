@@ -12,4 +12,4 @@ COPY Makefile .
 
 RUN make ft_malcolm
 
-CMD ["./ft_malcolm", "172.20.0.2", "AA:BB:CC:DD:EE:02", "172.20.0.3", "AA:BB:CC:DD:EE:03"]
+CMD ["sudo ./ft_malcolm", "172.20.0.2", "AA:BB:CC:DD:EE:02", "172.20.0.3", "AA:BB:CC:DD:EE:03"]

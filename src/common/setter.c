@@ -18,16 +18,10 @@ int	set_sockadrr_ll(struct sockaddr_ll *addr, char **mac_address) {
 }
 
 int	set_frame(struct s_frame *buf, char **mac_address_dst, char **mac_address_src) {
-	t_eth	eth = {0};
-	t_arp	arp = {0};
-
-	fill_mac_address(eth.dst, mac_address_dst);
-	fill_mac_address(eth.src, mac_address_src);
-	eth.ethertype = 0x0806;
-
-	// TODO : fill arp
+	fill_mac_address(buf->eth.dst, mac_address_dst);
+	fill_mac_address(buf->eth.src, mac_address_src);
+	buf->eth.ethertype = 0x0806;
 	
-	buf->eth = eth;
-	buf->arp = arp;
+	// TODO : fill arp
 	return(0);
 }

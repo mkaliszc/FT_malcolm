@@ -12,11 +12,13 @@ int	find_interface() {
 
 	tmp = interfaces_info;
 	while(tmp) {
-		if ((tmp->ifa_flags & IFF_UP) && !(tmp->ifa_flags & IFF_LOOPBACK) && (tmp->ifa_flags & IFF_NOARP)) {
-			index = if_nametoindex(tmp->ifa_name);
-			break;
+		if (tmp->ifa_addr->sa_family == AF_PACKET) {
+			if ((tmp->ifa_flags & IFF_UP) && !(tmp->ifa_flags & IFF_LOOPBACK) && !(tmp->ifa_flags & IFF_NOARP)) {
+				index = if_nametoindex(tmp->ifa_name);
+				break;
+			}
+			tmp = tmp->ifa_next;
 		}
-		tmp = tmp->ifa_next;
 	}
 
 	freeifaddrs(interfaces_info);

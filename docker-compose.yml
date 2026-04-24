@@ -2,8 +2,7 @@ services:
   attacker:
     container_name: attacker
     build:
-      context: ./Docker
-      dockerfile: attacker.dockerfile
+      dockerfile: ./Docker/malcolm.dockerfile
     networks:
       ft_malcolm:
         ipv4_address: 172.20.0.2
@@ -16,12 +15,16 @@ services:
   target:
     container_name: target
     build:
-      context: ./Docker
-      dockerfile: target.dockerfile
+      dockerfile: ./Docker/target.dockerfile
     networks:
       ft_malcolm:
         ipv4_address: 172.20.0.3
     mac_address: AA:BB:CC:DD:EE:03
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    depends_on:
+      - attacker
     restart: always
 
 networks:

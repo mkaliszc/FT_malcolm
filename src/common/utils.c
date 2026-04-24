@@ -6,7 +6,7 @@ int	find_interface() {
 	int				index = 0;
 
 	if (getifaddrs(&interfaces_info) < 0) {
-		printf_fd(2, "[ERROR] : couldn't get interface info, %s\n", strerror(errno));
+		printf_fd(2, "[ERROR] find_interface : couldn't get interface info, %s\n", strerror(errno));
 		return(0);
 	}
 
@@ -21,6 +21,9 @@ int	find_interface() {
 		}
 	}
 
+	if (index == 0) {
+		printf("Found available interface: %s\n", tmp->ifa_name);
+	}
 	freeifaddrs(interfaces_info);
 	return(index);
 }
@@ -34,38 +37,28 @@ void	fill_mac_address(unsigned char	*addr, char **mac_address) {
 	}
 }
 
-t_malcolm	*init_t_malcolm(char *src_mac_addr, char *dst_mac_addr) {
+t_malcolm	*init_struct(char *src_mac_addr, char *dst_mac_addr, char *ip_src, char *ip_dst) {
 	t_malcolm	*return_value = malloc(sizeof(t_malcolm));
 
 	if (return_value == NULL) {
-		return(printf_fd(2,"[ERROR] : malloc error.\n"), NULL);
+		return(printf_fd(2,"[ERROR] init_struct : malloc error.\n"), NULL);
 	}
 
 	ft_memset(return_value, '\0', sizeof(t_malcolm));
 
 	return_value->src_mac_addr = parse_mac_address(src_mac_addr);
 	if (return_value->src_mac_addr == NULL) {
-		printf_fd(2, "[ERROR] : Not a MAC adress.\n");
+		printf_fd(2, "[ERROR] init_struct : Not a MAC adress, %s.\n", src_mac_addr);
 		return(clean_malcolm(return_value), NULL);
 	}
 
 	return_value->dst_mac_addr = parse_mac_address(dst_mac_addr);
 	if (return_value->dst_mac_addr == NULL) {
-		printf_fd(2, "[ERROR] : Not a MAC adress.\n");
+		printf_fd(2, "[ERROR] init_struct : Not a MAC adress, %s.\n", dst_mac_addr);
 		return(clean_malcolm(return_value), NULL);
 	}
-
-	return_value->addr = malloc(sizeof(struct sockaddr_ll));
-	if (return_value->addr == NULL) {
-		return(clean_malcolm(return_value), printf_fd(2,"[ERROR] : malloc error.\n"), NULL);
-	}
-
-	return_value->buf = malloc(sizeof(struct sockaddr_ll));
-	if (return_value->buf == NULL) {
-		return(clean_malcolm(return_value), printf_fd(2,"[ERROR] : malloc error.\n"), NULL);
-	}
-
+	return_value->ip_src = ip_src;
+	return_value->ip_dst = ip_dst;
 	return_value->sockfd = -1;
-
 	return (return_value);
 }

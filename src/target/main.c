@@ -1,8 +1,9 @@
 # include "ft_malcolm.h"
 
-/* TODO: 
+/* Goal: 
 	- To keep it simple this program will just send an arp addr to
 		someone to be poisoned by malcolm
+	- "Someone" as an ip address hardcoded in the code but don't exist
 */
 
 int main(int argc, char **argv) {
@@ -12,7 +13,7 @@ int main(int argc, char **argv) {
 	}
 
 	int	val = 1;
-	int	sockfd = socket(AF_PACKET, SOCK_RAW, 0); // * need sudo to workl
+	int	sockfd = socket(AF_PACKET, SOCK_RAW, 0);
 	if (sockfd < 0) {
 		printf_fd(2, "[ERROR] main : Failed to create the socket.\n");
 		return (1);
@@ -35,7 +36,7 @@ int main(int argc, char **argv) {
 
 	if (set_frame(data, REQUEST) < 0) {
 		printf_fd(2, "[ERROR] main : Couldn't set frame.\n");
-		return(clean_malcolm(data), 1);
+		return(1);
 	}
 
 	sendto(sockfd, &data->buf, sizeof(data->buf), 0, (struct sockaddr *)&data->addr, sizeof(data->addr));

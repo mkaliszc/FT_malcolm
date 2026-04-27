@@ -2,6 +2,7 @@ services:
   attacker:
     container_name: attacker
     build:
+      context: .
       dockerfile: ./Docker/malcolm.dockerfile
     networks:
       ft_malcolm:
@@ -10,11 +11,11 @@ services:
     cap_add:
       - NET_RAW
       - NET_ADMIN
-    restart: always
   
   target:
     container_name: target
     build:
+      context: .
       dockerfile: ./Docker/target.dockerfile
     networks:
       ft_malcolm:
@@ -25,7 +26,6 @@ services:
       - NET_ADMIN
     depends_on:
       - attacker
-    restart: always
 
 networks:
   ft_malcolm:

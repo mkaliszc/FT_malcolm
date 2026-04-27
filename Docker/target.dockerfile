@@ -1,7 +1,7 @@
 FROM alpine:3.23.3
 USER root
 
-RUN apk add --no-cache gcc musl-dev make git iputils
+RUN apk add --no-cache gcc musl-dev make git iputils net-tools linux-headers
 
 WORKDIR /app
 
@@ -11,6 +11,8 @@ COPY ./include ./include
 COPY ./Makefile .
 
 RUN make target
+RUN chmod +x ./src/target/script.sh
+RUN ./src/target/script.sh
 
-CMD ["./src/script.sh"]
+CMD ["sleep", "infinity"]
 

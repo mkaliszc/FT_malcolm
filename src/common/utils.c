@@ -21,7 +21,7 @@ int	find_interface() {
 		}
 	}
 
-	if (index == 0) {
+	if (index != 0) {
 		printf("Found available interface: %s\n", tmp->ifa_name);
 	}
 	freeifaddrs(interfaces_info);

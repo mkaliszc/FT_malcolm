@@ -38,8 +38,11 @@ int main(int argc, char **argv) {
 		printf_fd(2, "[ERROR] main : Couldn't set frame.\n");
 		return(1);
 	}
-
-	sendto(sockfd, &data->buf, sizeof(data->buf), 0, (struct sockaddr *)&data->addr, sizeof(data->addr));
+	
+	if (sendto(sockfd, &data->buf, sizeof(data->buf), 0, (struct sockaddr *)&data->addr, sizeof(data->addr)) < 0) {
+		printf("[ERROR] main : couldn't send the request, %s.\n", strerror(errno));
+	}
+	
 	clean_malcolm(data);
 	return(0);
 }

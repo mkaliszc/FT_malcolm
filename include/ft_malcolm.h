@@ -3,6 +3,7 @@
 
 # define REQUEST 1
 # define REPLY 2
+# define MAX_TRY 5 
 
 # include "../OctoLIB/include/libft.h"
 
@@ -21,34 +22,37 @@
 # include <net/if.h>
 # include <linux/if_ether.h>
 # include <linux/if_packet.h>
+# include <sys/time.h>
 
 // * error lib
 # include <errno.h>
 
+extern volatile sig_atomic_t	g_running;
+
 typedef struct s_eth
 {
-	uint8_t  dst[6];
-	uint8_t  src[6];
+	uint8_t 	dst[6];
+	uint8_t 	src[6];
 	uint16_t ethertype;
 } __attribute__((packed)) t_eth;
 
 typedef struct s_arp
 {
-	uint16_t htype;
-	uint16_t ptype;
-	uint8_t  hlen;
-	uint8_t  plen;
-	uint16_t oper;
-	uint8_t  sha[6];
-	uint8_t  spa[4];
-	uint8_t  tha[6];
-	uint8_t  tpa[4];
+	uint16_t	htype;
+	uint16_t	ptype;
+	uint8_t		hlen;
+	uint8_t		plen;
+	uint16_t	oper;
+	uint8_t 	sha[6];
+	uint8_t 	spa[4];
+	uint8_t 	tha[6];
+	uint8_t 	tpa[4];
 } __attribute__((packed)) t_arp;
 
 typedef struct s_frame
 {
-	t_eth eth;
-	t_arp arp;
+	t_eth	eth;
+	t_arp	arp;
 } __attribute__((packed)) t_frame;
 
 
@@ -73,6 +77,7 @@ void		fill_mac_address(unsigned char	*addr, char **mac_address);
 int			set_frame(t_malcolm	*data, int type);
 t_malcolm	*init_struct(char *src_mac_addr, char *dst_mac_addr, char *ip_src, char *ip_dst);
 void		clean_malcolm(t_malcolm	*data);
+void		intercept_request(t_malcolm *data);
 
 // * target's function
 int			set_sockadrr_ll(struct sockaddr_ll *addr, char **mac_address);
